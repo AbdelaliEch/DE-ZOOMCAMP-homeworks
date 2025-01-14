@@ -1,20 +1,20 @@
-# Question 1. Understanding docker first run
-commands used: 
-	docker run -it --entrypoint=bash python:3.12.8  
+# Question 1. Understanding docker first run  
+commands used:   
+	docker run -it --entrypoint=bash python:3.12.8    
 	pip --version
 
 # Question 3. Trip Segmentation Count
-queries used:
-	SELECT COUNT(*) AS trip_count 
-	FROM green_taxi_trips  
-	WHERE lpep_pickup_datetime>='2019-10-01 00:00:00' 
-	AND lpep_dropoff_datetime<'2019-11-01 00:00:00'
-	AND trip_distance<=1
+queries used:  
+	SELECT COUNT(*) AS trip_count   
+	FROM green_taxi_trips    
+	WHERE lpep_pickup_datetime>='2019-10-01 00:00:00'   
+	AND lpep_dropoff_datetime<'2019-11-01 00:00:00'  
+	AND trip_distance<=1  
 
-	SELECT COUNT(*) AS trip_count 
-	FROM green_taxi_trips 
-	WHERE lpep_pickup_datetime>='2019-10-01 00:00:00' 
-	AND lpep_dropoff_datetime<'2019-11-01 00:00:00'
+	SELECT COUNT(*) AS trip_count   
+	FROM green_taxi_trips   
+	WHERE lpep_pickup_datetime>='2019-10-01 00:00:00'   
+	AND lpep_dropoff_datetime<'2019-11-01 00:00:00'  
 	AND trip_distance>1 AND trip_distance<=3
 
 	SELECT COUNT(*) AS trip_count 
