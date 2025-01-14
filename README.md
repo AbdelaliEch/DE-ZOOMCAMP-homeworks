@@ -5,7 +5,8 @@ commands used:
 
 # Question 3. Trip Segmentation Count
 queries used:  
-	SELECT COUNT(*) AS trip_count   
+	```sql
+ 	SELECT COUNT(*) AS trip_count   
 	FROM green_taxi_trips    
 	WHERE lpep_pickup_datetime>='2019-10-01 00:00:00'   
 	AND lpep_dropoff_datetime<'2019-11-01 00:00:00'  
