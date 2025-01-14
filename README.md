@@ -1,12 +1,12 @@
 # Question 1. Understanding docker first run  
-**commands used**     
+**commands used**:     
 ```bash
 docker run -it --entrypoint=bash python:3.12.8    
 pip --version
 ```
 
 # Question 3. Trip Segmentation Count
-**queries used**  
+**queries used**:  
 ```sql  
 SELECT COUNT(*) AS trip_count   
 FROM green_taxi_trips    
@@ -40,7 +40,7 @@ AND trip_distance>10
 ```
 
 # Question 4. Longest trip for each day
-**query used**
+**query used**:
 ```sql
 SELECT DATE(lpep_pickup_datetime), 
        MAX(trip_distance) 
@@ -49,8 +49,8 @@ GROUP BY 1
 ORDER BY 2 DESC
 ```
 
-# Question 5:
-**query used**
+# Question 5. Three biggest pickup zones
+**query used**:
 ```sql
 SELECT "PULocationID", zones."Zone", SUM(total_amount) AS total_across_all_trips  
 FROM green_taxi_trips JOIN zones ON
@@ -62,7 +62,7 @@ ORDER BY 3 DESC
 ```
 
 # Question 6. Largest tip
-**query used**
+**query used**:
 ```sql
 SELECT "PULocationID",
 	   zp."Zone" AS pickup_zone,
