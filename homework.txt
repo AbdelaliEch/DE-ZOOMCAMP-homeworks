@@ -1,0 +1,109 @@
+Run docker with the python:3.12.8 image in an interactive mode, use the entrypoint bash
+command used: docker run -it --entrypoint=bash python:3.12.8
+
+
+Question 1:
+command used: pip --version
+answer: 24.3.1
+
+Question 2:
+answer: db:5432
+
+
+
+created ingest_data_green.py file
+
+builded the image: docker build -t taxi_ingest:002 . 
+
+run pgadmin and postgres compose: docker-compose up -d
+
+defined the url variable: URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-10.csv.gz"
+
+run the container to injest the data using the network of the compose: 
+docker run -it --network=2_sql_docker_default taxi_ingest:002 --user=root --password=root --host=pgdatabase --port=5432 --db=ny_taxi --table_name=green_taxi_trips --url=${URL}
+
+
+Question 3:
+queries:
+SELECT COUNT(*) AS trip_count 
+FROM green_taxi_trips 
+WHERE DATE(lpep_pickup_datetime)>='2019-10-01' 
+AND DATE(lpep_dropoff_datetime)<'2019-11-01'
+AND trip_distance<=1
+
+SELECT COUNT(*) AS trip_count 
+FROM green_taxi_trips 
+WHERE DATE(lpep_pickup_datetime)>='2019-10-01' 
+AND DATE(lpep_dropoff_datetime)<'2019-11-01'
+AND trip_distance>1 AND trip_distance<=3
+
+SELECT COUNT(*) AS trip_count 
+FROM green_taxi_trips 
+WHERE DATE(lpep_pickup_datetime)>='2019-10-01' 
+AND DATE(lpep_dropoff_datetime)<'2019-11-01'
+AND trip_distance>3 AND trip_distance<=7
+
+SELECT COUNT(*) AS trip_count 
+FROM green_taxi_trips 
+WHERE DATE(lpep_pickup_datetime)>='2019-10-01' 
+AND DATE(lpep_dropoff_datetime)<'2019-11-01'
+AND trip_distance>7 AND trip_distance<=10
+
+SELECT COUNT(*) AS trip_count 
+FROM green_taxi_trips 
+WHERE DATE(lpep_pickup_datetime)>='2019-10-01' 
+AND DATE(lpep_dropoff_datetime)<'2019-11-01'
+AND trip_distance>10
+
+answer: option 2: 104,793; 198,924; 109,603; 27,678; 35,189
+
+
+Question 4:
+query:
+SELECT DATE(lpep_pickup_datetime), 
+       MAX(trip_distance) 
+FROM green_taxi_trips 
+GROUP BY 1 
+ORDER BY 2 DESC
+
+answer: option 4: 2019-10-31
+
+
+Question 5:
+query:
+SELECT "PULocationID", zones."Zone", SUM(total_amount) AS total_across_all_trips  
+FROM green_taxi_trips JOIN zones ON
+"PULocationID" = "LocationID"
+WHERE DATE(lpep_pickup_datetime)='2019-10-18'
+GROUP BY 1, 2
+HAVING SUM(total_amount)>13000
+ORDER BY 3 DESC;
+
+answer: option 1: East Harlem North, East Harlem South, Morningside Heights
+
+
+Question 6:
+Query:
+SELECT "PULocationID",
+	   zp."Zone" AS pickup_zone,
+	   "DOLocationID", 
+	   zd."Zone" AS dropoff_zone,
+	   tip_amount
+FROM green_taxi_trips taxi
+JOIN zones zp
+ON taxi."PULocationID" = zp."LocationID"
+JOIN zones zd
+ON taxi."DOLocationID" = zd."LocationID"
+WHERE lpep_pickup_datetime >= '2019-10-01 00:00:00'
+AND lpep_pickup_datetime < '2019-11-01 00:00:00'
+AND zp."Zone" = 'East Harlem North'
+ORDER BY tip_amount DESC
+;
+
+answer: JFK Airport
+
+
+
+Question 7:
+answer: option 4: terraform init, terraform apply -auto-aprove, terraform destroy
+ 
