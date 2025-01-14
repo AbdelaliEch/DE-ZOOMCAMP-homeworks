@@ -1,5 +1,5 @@
 # Question 1. Understanding docker first run  
-commands used:   
+**commands used:**     
 	docker run -it --entrypoint=bash python:3.12.8    
 	pip --version
 
